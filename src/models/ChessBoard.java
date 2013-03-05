@@ -1,18 +1,63 @@
 package models;
 
+import controllers.ChessPlayer;
+
 public class ChessBoard {
 
-	public ChessPiece[][] board;
+	private static BoardCell[][] boardCells;
+	private ChessPlayer blackPlayer;
+	private ChessPlayer whitePlayer;
 
-	public ChessBoard() {
+	public ChessBoard(ChessPlayer whitePlayer, ChessPlayer blackPlayer) {
 
-		board = new ChessPiece[8][8];
+		this.blackPlayer = blackPlayer;
+		this.whitePlayer = whitePlayer;
+		boardCells = new BoardCell[8][8];
 
+		populateBoardStartGame();
+		
+		for(ChessPiece p: whitePlayer.getChessPieces()){
+			System.out.println("Piece is black: " + p.isBlack + " Piece Square: " + p.getCurrentCell().getSquareName() +
+					"  Piece type: " + p.getPieceType());
+		}
+		
+		for(ChessPiece p: blackPlayer.getChessPieces()){
+			System.out.println("Piece is black: " + p.isBlack + " Piece Square: " +p.getCurrentCell().getSquareName() +
+					"  Piece type: " + p.getPieceType());
+		}
 	}
 	
-	public ChessPiece getPieceAt(int i, int j) {
+	public static BoardCell getCellAt(int i, int j) {
 
-		return board[i][j];
+		if(i < 0 || i > 7 || j < 0 || j > 7){
+			return null;
+		}
+		
+		return boardCells[i][j];
+	}
+	
+	public static BoardCell[][] getBoardCell() {
+		return boardCells;
+	}
+
+	public static void setBoard(BoardCell[][] board) {
+		ChessBoard.boardCells = board;
+	}
+
+	public ChessPlayer getBlackPlayer() {
+		return blackPlayer;
+	}
+
+	public void setBlackPlayer(ChessPlayer blackPlayer) {
+		this.blackPlayer = blackPlayer;
+	}
+
+	public ChessPlayer getWhitePlayer() {
+		return whitePlayer;
+	}
+
+	public void setWhitePlayer(ChessPlayer whitePlayer) {
+		this.whitePlayer = whitePlayer;
 	}
 	
 	public void populateBoardStartGame(){
@@ -20,7 +65,18 @@ public class ChessBoard {
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				
-				board[i][j] = addPiece(i,j);
+				ChessPiece p = addPiece(i,j);
+				boardCells[i][j] = new BoardCell(i,j);
+				boardCells[i][j].currentPiece = p;
+				
+				if(i<2){
+					whitePlayer.getChessPieces().add(p);
+				}
+				else if(i>5){
+					blackPlayer.getChessPieces().add(p);
+				}
+				
+				
 				
 			}
 		}
@@ -34,83 +90,83 @@ public class ChessBoard {
 		case 0:
 			switch (j) {
 			case 0:
-				return new Rook(false);
+				return new Rook("Rook",false,i,j);
 			case 1:
-				return new Knight(false);
+				return new Horse("Knight",false,i,j);
 			case 2:
-				return new Bishop(false);
+				return new Bishop("Bishop",false,i,j);
 			case 3:
-				return new Queen(false);
+				return new Queen("Queen",false,i,j);
 			case 4:
-				return new King(false);
+				return new King("King",false,i,j);
 			case 5:
-				return new Bishop(false);
+				return new Bishop("Bishop",false,i,j);
 			case 6:
-				return new Knight(false);
+				return new Horse("Knight",false,i,j);
 			case 7:
-				return new Rook(false);
+				return new Rook("Rook",false,i,j);
 
 			}
 		case 1:
 			switch (j) {
 			case 0:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 1:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 2:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 3:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 4:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 5:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 6:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 			case 7:
-				return new Pawn(false);
+				return new Pawn("Pawn",false,i,j);
 
 			}
 		
 		case 6:
 			switch (j) {
 			case 0:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 1:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 2:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 3:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 4:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 5:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 6:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 			case 7:
-				return new Pawn(true);
+				return new Pawn("Pawn",true,i,j);
 
 			}
 
 		case 7:
 			switch (j) {
 			case 0:
-				return new Rook(true);
+				return new Rook("Rook",true,i,j);
 			case 1:
-				return new Knight(true);
+				return new Horse("Knight",true,i,j);
 			case 2:
-				return new Bishop(true);
+				return new Bishop("Bishop",true,i,j);
 			case 3:
-				return new Queen(true);
+				return new Queen("Queen",true,i,j);
 			case 4:
-				return new King(true);
+				return new King("King",true,i,j);
 			case 5:
-				return new Bishop(true);
+				return new Bishop("Bishop",true,i,j);
 			case 6:
-				return new Knight(true);
+				return new Horse("Knight",true,i,j);
 			case 7:
-				return new Rook(true);
+				return new Rook("Rook",true,i,j);
 			}
 		}
 		return null;
@@ -118,7 +174,7 @@ public class ChessBoard {
 	}
 
 
-	public String getLetterNumberOfBoard(Integer i, Integer j) {
+	public static String getLetterNumberOfBoard(Integer i, Integer j) {
 
 		String square = "";
 
@@ -293,18 +349,5 @@ public class ChessBoard {
 
 	}
 	
-	public static void main(String[] args){
-		
-		ChessBoard c = new ChessBoard();
-		
-		String x = c.getLetterNumberOfBoard(4, 4);
-		System.out.println(x);
-		
-		c.populateBoardStartGame();
-		
-		ChessPiece p = c.getPieceAt(4, 4);
-		
-		System.out.println(p.getClass().getName());
-	}
 
 }

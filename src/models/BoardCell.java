@@ -2,15 +2,18 @@ package models;
 
 public class BoardCell {
 	
-	Integer width;
-	Integer depth;
-	String desc;
+	Integer row;
+	Integer column;
+	String square;
+	ChessPiece currentPiece;
 
-	public BoardCell(Integer i, Integer j, String desc) {
+	public BoardCell(Integer i, Integer j) {
 		
-		this.width = i;
-		this.depth = j;
-		this.desc = desc;
+		this.row = i;
+		this.column = j;
 	}
 
+	public String getSquareName(){
+		return ChessBoard.getLetterNumberOfBoard(row, column);
+	}
 }
