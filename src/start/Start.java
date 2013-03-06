@@ -23,11 +23,7 @@ public class Start {
 			
 			ChessBoard c = new ChessBoard(whitePlayer, blackPlayer);
 			
-			String x = c.getLetterNumberOfBoard(4, 4);
-			
-			System.out.println(x);
-			
-			Referee r = new Referee(whitePlayer, blackPlayer);
+			new Referee(whitePlayer, blackPlayer);
 			
 			Referee.startGame();
 		

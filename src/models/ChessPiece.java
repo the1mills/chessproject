@@ -11,11 +11,12 @@ public abstract class ChessPiece {
 	protected BoardCell currentCell;
 	protected boolean hasMadeFirstMove = false; 
 
-	public ChessPiece(String pieceType, boolean color, int row, int column) {
+	public ChessPiece(String pieceType, double value, boolean color, int row, int column) {
 		
 		this.isBlack = color;
 		this.currentCell = new BoardCell(row,column);
 		this.pieceType = pieceType;
+		this.valueOfPiece = value;
 	}
 	
 	public abstract void setValueOfPiece();

@@ -4,8 +4,8 @@ import java.util.Vector;
 
 public class Pawn extends ChessPiece {
 
-	public Pawn(String pieceType, boolean color, int row, int column) {
-		super(pieceType, color, row, column);
+	public Pawn(String pieceType, double value, boolean color, int row, int column) {
+		super(pieceType, value, color, row, column);
 	}
 
 	@Override

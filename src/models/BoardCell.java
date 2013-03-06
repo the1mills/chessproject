@@ -16,4 +16,36 @@ public class BoardCell {
 	public String getSquareName(){
 		return ChessBoard.getLetterNumberOfBoard(row, column);
 	}
+	
+	public Integer getRow() {
+		return row;
+	}
+
+	public void setRow(Integer row) {
+		this.row = row;
+	}
+
+	public Integer getColumn() {
+		return column;
+	}
+
+	public void setColumn(Integer column) {
+		this.column = column;
+	}
+
+	public String getSquare() {
+		return square;
+	}
+
+	public void setSquare(String square) {
+		this.square = square;
+	}
+
+	public ChessPiece getCurrentPiece() {
+		return currentPiece;
+	}
+
+	public void setCurrentPiece(ChessPiece currentPiece) {
+		this.currentPiece = currentPiece;
+	}
 }
