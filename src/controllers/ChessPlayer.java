@@ -3,6 +3,8 @@ package controllers;
 import java.util.Observable;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import views.ChessViewFrame;
 
 import models.Bishop;
@@ -38,9 +40,9 @@ public class ChessPlayer extends Observable {
 
 		for (ChessPiece p : this.getChessPieces()) {
 			
-			if(p instanceof Queen || p instanceof King){
-				continue;
-			}
+//			if(p instanceof Queen || p instanceof King){
+//				continue;
+//			}
 			for (BoardCell c : p.findPossibleSquaresToMoveTo()) {
 				
 				if(c.getCurrentPiece() !=null){
@@ -87,7 +89,16 @@ public class ChessPlayer extends Observable {
 				
 				calcTemp += 2.0;
 //				calcTemp += 9999.0;
+				
+				String kingColor = "";
+				if(m.getCapturedPiece().isBlack()){
+					kingColor = "Black";
+				}
+				else{
+					kingColor = "White";
+				}
 				Referee.setGameOver(true);
+				JOptionPane.showMessageDialog(null, kingColor + " king is captured");
 
 			}
 			
