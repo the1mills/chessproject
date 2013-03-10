@@ -23,7 +23,7 @@ public class ChessBoard extends Observable{
 		
 	}
 	
-	public static ChessPiece getPieceAt(BoardCell c){
+	public static ChessPiece getPieceAt1(BoardCell c){
 		
 		BoardCell bc = boardCells[c.row][c.column];
 		
@@ -38,6 +38,36 @@ public class ChessBoard extends Observable{
 		
 		return boardCells[i][j];
 	}
+	
+	
+	public static ChessPiece getPieceAt(BoardCell c){
+		
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				
+				if(boardCells[i][j] == c){
+					return boardCells[i][j].getCurrentPiece();
+				}
+			}	
+		}
+		return null;
+	}
+	
+	
+	public static BoardCell getCellAt1(BoardCell c) {
+
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				
+				if(boardCells[i][j] == c){
+					return boardCells[i][j];
+				}
+			}	
+		}
+		
+		return null;
+	}
+	
 	
 	public static BoardCell[][] getBoardCell() {
 		return boardCells;

@@ -97,7 +97,7 @@ public class ChessPlayer extends Observable {
 		
 		double calc = -111;
 		Vector<Move> finalChoices = new Vector<Move>();
-		Move finalMove = null;
+		Move finalMoveChoice = null;
 		
 		for (Move m : possibleMoves) {
 			
@@ -126,18 +126,18 @@ public class ChessPlayer extends Observable {
 			
 			 rand = (Math.random()*(finalChoices.size()-1));
 			 x = (int) Math.round(rand);
-			finalMove = finalChoices.get(x);
+			finalMoveChoice = finalChoices.get(x);
 			
 		}
 		else if(finalChoices.size() == 1){
-			finalMove = finalChoices.get(0);
+			finalMoveChoice = finalChoices.get(0);
 		}
 		
-		if(finalMove == null){
+		if(finalMoveChoice == null){
 			System.out.println("Final move is null");
 		}
 		
-		executeMove(finalMove);
+		executeMove(finalMoveChoice);
 		
 		
 		//System.out.println("Captured piece: " + Object.getCaptured());
@@ -154,15 +154,20 @@ public class ChessPlayer extends Observable {
 	
 	if(finalMove.getCapturedPiece() != null){
 	BoardCell bc = finalMove.getCapturedPiece().getCurrentCell();
-	ChessBoard.getCellAt(bc.getRow(), bc.getColumn()).setCurrentPiece(null);
-	}
-	
+	//ChessBoard.getCellAt(bc.getRow(), bc.getColumn()).setCurrentPiece(null);
+	ChessBoard.getCellAt1(bc).setCurrentPiece(null);
 	ChessPlayer cp = Referee.getOppposingPlayer(this);
 	cp.getChessPieces().remove(finalMove.getCapturedPiece());
+	}
+	
 	BoardCell bc1 = finalMove.getToCell();
 	BoardCell bc2 = finalMove.getMovedPiece().getCurrentCell();
-	ChessBoard.getCellAt(bc2.getRow(), bc2.getColumn()).setCurrentPiece(null);
-	ChessBoard.getCellAt(bc1.getRow(), bc1.getColumn()).setCurrentPiece(finalMove.getMovedPiece());
+//	ChessBoard.getCellAt(bc2.getRow(), bc2.getColumn()).setCurrentPiece(null);
+//	ChessBoard.getCellAt(bc1.getRow(), bc1.getColumn()).setCurrentPiece(finalMove.getMovedPiece());
+	ChessBoard.getCellAt1(bc2).setCurrentPiece(null);
+	ChessBoard.getCellAt1(bc1).setCurrentPiece(finalMove.getMovedPiece());
+	
+	finalMove.getMovedPiece().setCurrentCell(bc1);
 	
 	this.setChanged();
 	this.notifyObservers(finalMove);
