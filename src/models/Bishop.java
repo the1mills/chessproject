@@ -4,9 +4,9 @@ import java.util.Vector;
 
 public class Bishop extends ChessPiece {
 
-	public Bishop(String pieceType, double value, boolean color, int row, int column) {
+	public Bishop(String pieceType, BoardCell c, double value, boolean color, int row, int column) {
 	
-		super(pieceType,value,color,row,column);
+		super(pieceType, c, value,color,row,column);
 	}
 
 	@Override

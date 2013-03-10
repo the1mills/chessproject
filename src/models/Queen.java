@@ -4,9 +4,9 @@ import java.util.Vector;
 
 public class Queen extends ChessPiece {
 
-	public Queen(String pieceType, double value, boolean color, int row, int column) {
+	public Queen(String pieceType, BoardCell c, double value, boolean color, int row, int column) {
 
-		super(pieceType, value, color, row, column);
+		super(pieceType, c,value, color, row, column);
 	}
 
 	@Override
@@ -53,7 +53,6 @@ public class Queen extends ChessPiece {
 						yTemp = y;
 						temp = new BoardCell(xTemp, yTemp);
 					} 
-					
 					else if (i == 4){
 						xTemp = x - j;
 						yTemp = y - j;

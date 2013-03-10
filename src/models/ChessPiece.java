@@ -1,22 +1,35 @@
 package models;
 
+import java.util.Observable;
 import java.util.Vector;
 
-public abstract class ChessPiece {
-	
+import javax.swing.JLabel;
+
+import controllers.Referee;
+
+public abstract class ChessPiece extends Observable {
+
 	protected boolean isOnBlack;
 	protected boolean isBlack;
 	protected double valueOfPiece;
 	protected String pieceType;
 	protected BoardCell currentCell;
 	protected boolean hasMadeFirstMove = false; 
+	private JLabel jlImage;
 
-	public ChessPiece(String pieceType, double value, boolean color, int row, int column) {
+	public ChessPiece(String pieceType, BoardCell c, double value, boolean color, int row, int column) {
 		
 		this.isBlack = color;
-		this.currentCell = new BoardCell(row,column);
+		this.currentCell = c;
 		this.pieceType = pieceType;
 		this.valueOfPiece = value;
+		
+		this.addObserver(Referee.cvf);
+		
+		jlImage = getImageLabel();
+		
+		this.setChanged();
+		this.notifyObservers(this);
 	}
 	
 	public abstract void setValueOfPiece();
@@ -27,6 +40,21 @@ public abstract class ChessPiece {
 		return pieceType;
 	}
 
+	public JLabel getImageLabel(){
+		
+		String imgToGet = this.pieceType;
+		
+		if(this.isBlack){
+		
+			imgToGet += "Black";
+		}
+		else{
+			imgToGet += "White";
+		}
+		
+		return new JLabel(Referee.cvf.getPieceImgHash().get(imgToGet));
+	}
+	
 	
 	public boolean isOnBlack() {
 		return isOnBlack;
@@ -63,6 +91,23 @@ public abstract class ChessPiece {
 	public void setPieceType(String pieceType) {
 		this.pieceType = pieceType;
 	}
+	
+	public boolean isHasMadeFirstMove() {
+		return hasMadeFirstMove;
+	}
+
+	public void setHasMadeFirstMove(boolean hasMadeFirstMove) {
+		this.hasMadeFirstMove = hasMadeFirstMove;
+	}
+
+	public JLabel getJlImage() {
+		return jlImage;
+	}
+
+	public void setJlImage(JLabel jlImage) {
+		this.jlImage = jlImage;
+	}
+
 
 	
 	

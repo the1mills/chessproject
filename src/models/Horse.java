@@ -4,8 +4,8 @@ import java.util.Vector;
 
 public class Horse extends ChessPiece {
 
-	public Horse(String pieceType, double value,boolean color, int row, int column) {
-		super(pieceType,value,color,row,column);
+	public Horse(String pieceType, BoardCell c, double value,boolean color, int row, int column) {
+		super(pieceType,c,value,color,row,column);
 	}
 
 	@Override
@@ -26,7 +26,6 @@ public class Horse extends ChessPiece {
 
 			// Loop over 8 directions
 			for (int i = 0; i < 8; i++) {
-				// Loop over 7 potential squares in each of 8 directions
 
 				int xTemp;
 				int yTemp;
@@ -131,7 +130,6 @@ public class Horse extends ChessPiece {
 				} else {
 					// a problem arises...
 				}
-
 
 				BoardCell temp1 = ChessBoard.getCellAt(temp.row, temp.column);
 

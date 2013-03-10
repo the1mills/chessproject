@@ -14,7 +14,7 @@ public class BoardCell {
 	}
 
 	public String getSquareName(){
-		return ChessBoard.getLetterNumberOfBoard(row, column);
+		return square = ChessBoard.getLetterNumberOfBoard(row, column);
 	}
 	
 	public Integer getRow() {
@@ -31,14 +31,6 @@ public class BoardCell {
 
 	public void setColumn(Integer column) {
 		this.column = column;
-	}
-
-	public String getSquare() {
-		return square;
-	}
-
-	public void setSquare(String square) {
-		this.square = square;
 	}
 
 	public ChessPiece getCurrentPiece() {

@@ -17,13 +17,8 @@ public class Start {
 	 */
 	public static void main(String[] args) {
 		
-
-			ChessPlayer whitePlayer = new ChessPlayer(false);
-			ChessPlayer blackPlayer = new ChessPlayer(true);
 			
-			ChessBoard c = new ChessBoard(whitePlayer, blackPlayer);
-			
-			new Referee(whitePlayer, blackPlayer);
+			new Referee();
 			
 			Referee.startGame();
 		

@@ -1,6 +1,8 @@
 package controllers;
 
+import views.ChessViewFrame;
 import models.BoardCell;
+import models.ChessBoard;
 import models.ChessPiece;
 
 public class Referee {
@@ -9,20 +11,27 @@ public class Referee {
 	private static boolean gameOver = false;
 	private volatile static ChessPlayer whitePlayer;
 	private volatile static ChessPlayer blackPlayer;
+	public static ChessViewFrame cvf;
 
-	public Referee(ChessPlayer whitePlayer, ChessPlayer blackPlayer) {
+	public Referee() {
+
+		cvf = new ChessViewFrame();
+		cvf.setVisible(true);
+		whitePlayer = new ChessPlayer(false, cvf);
+		blackPlayer = new ChessPlayer(true, cvf);
+
+		ChessBoard c = new ChessBoard(whitePlayer, blackPlayer);
 
 		Referee.whitePlayer = whitePlayer;
 		Referee.blackPlayer = blackPlayer;
 
 	}
-	
-	public static ChessPlayer getOppposingPlayer(ChessPlayer cp){
-		
-		if(cp.isBlack()){
+
+	public static ChessPlayer getOppposingPlayer(ChessPlayer cp) {
+
+		if (cp.isBlack()) {
 			return whitePlayer;
-		}
-		else{
+		} else {
 			return blackPlayer;
 		}
 	}
@@ -43,7 +52,19 @@ public class Referee {
 		while (!isGameOver() && i < 500) {
 			System.out.println("Move #: " + i);
 			whitePlayer.move();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			blackPlayer.move();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			i++;
 		}
 

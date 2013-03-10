@@ -1,8 +1,11 @@
 package models;
 
-import controllers.ChessPlayer;
+import java.util.Observable;
 
-public class ChessBoard {
+import controllers.ChessPlayer;
+import controllers.Referee;
+
+public class ChessBoard extends Observable{
 
 	private static BoardCell[][] boardCells;
 	private ChessPlayer blackPlayer;
@@ -16,15 +19,8 @@ public class ChessBoard {
 
 		populateBoardStartGame();
 		
-//		for(ChessPiece p: whitePlayer.getChessPieces()){
-//			System.out.println("Piece is black: " + p.isBlack + " Piece Square: " + p.getCurrentCell().getSquareName() +
-//					"  Piece type: " + p.getPieceType());
-//		}
-//		
-//		for(ChessPiece p: blackPlayer.getChessPieces()){
-//			System.out.println("Piece is black: " + p.isBlack + " Piece Square: " +p.getCurrentCell().getSquareName() +
-//					"  Piece type: " + p.getPieceType());
-//		}
+		this.addObserver(Referee.cvf);
+		
 	}
 	
 	public static ChessPiece getPieceAt(BoardCell c){
@@ -74,12 +70,11 @@ public class ChessBoard {
 				
 				
 				boardCells[i][j] = new BoardCell(i,j);
-				ChessPiece p = addPiece(i,j);
+				ChessPiece p = getCorrectPiece(i,j);
 				
 //				if(p !=null && p.getPieceType().equals("Pawn")){
 //					continue;
 //				}
-				
 				
 				boardCells[i][j].currentPiece = p;
 				
@@ -99,90 +94,90 @@ public class ChessBoard {
 		
 	}
 
-	private ChessPiece addPiece(int i, int j) {
+	private ChessPiece getCorrectPiece(int i, int j) {
 		
 		switch (i) {
 
 		case 0:
 			switch (j) {
 			case 0:
-				return new Rook("Rook",5,false,i,j);
+				return new Rook("Rook",boardCells[i][j],5,false,i,j);
 			case 1:
-				return new Horse("Horse",4,false,i,j);
+				return new Horse("Horse",boardCells[i][j],4,false,i,j);
 			case 2:
-				return new Bishop("Bishop",3,false,i,j);
+				return new Bishop("Bishop",boardCells[i][j],3,false,i,j);
 			case 3:
-				return new Queen("Queen",7,false,i,j);
+				return new Queen("Queen",boardCells[i][j],7,false,i,j);
 			case 4:
-				return new King("King",9999,false,i,j);
+				return new King("King",boardCells[i][j],9999,false,i,j);
 			case 5:
-				return new Bishop("Bishop",3,false,i,j);
+				return new Bishop("Bishop",boardCells[i][j],3,false,i,j);
 			case 6:
-				return new Horse("Horse",4,false,i,j);
+				return new Horse("Horse",boardCells[i][j],4,false,i,j);
 			case 7:
-				return new Rook("Rook",5,false,i,j);
+				return new Rook("Rook",boardCells[i][j],5,false,i,j);
 
 			}
 		case 1:
 			switch (j) {
 			case 0:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 1:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 2:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 3:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 4:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 5:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 6:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 			case 7:
-				return new Pawn("Pawn",2,false,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,false,i,j);
 
 			}
 		
 		case 6:
 			switch (j) {
 			case 0:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 1:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 2:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 3:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 4:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 5:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 6:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 			case 7:
-				return new Pawn("Pawn",2,true,i,j);
+				return new Pawn("Pawn",boardCells[i][j],2,true,i,j);
 
 			}
 
 		case 7:
 			switch (j) {
 			case 0:
-				return new Rook("Rook",5,true,i,j);
+				return new Rook("Rook",boardCells[i][j],5,true,i,j);
 			case 1:
-				return new Horse("Horse",4,true,i,j);
+				return new Horse("Horse",boardCells[i][j],4,true,i,j);
 			case 2:
-				return new Bishop("Bishop",3,true,i,j);
+				return new Bishop("Bishop",boardCells[i][j],3,true,i,j);
 			case 3:
-				return new Queen("Queen",7,true,i,j);
+				return new Queen("Queen",boardCells[i][j],7,true,i,j);
 			case 4:
-				return new King("King",9999,true,i,j);
+				return new King("King",boardCells[i][j],9999,true,i,j);
 			case 5:
-				return new Bishop("Bishop",3,true,i,j);
+				return new Bishop("Bishop",boardCells[i][j],3,true,i,j);
 			case 6:
-				return new Horse("Horse",4,true,i,j);
+				return new Horse("Horse",boardCells[i][j],4,true,i,j);
 			case 7:
-				return new Rook("Rook",5,true,i,j);
+				return new Rook("Rook",boardCells[i][j],5,true,i,j);
 			}
 		}
 		return null;

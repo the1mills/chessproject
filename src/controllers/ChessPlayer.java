@@ -1,6 +1,9 @@
 package controllers;
 
+import java.util.Observable;
 import java.util.Vector;
+
+import views.ChessViewFrame;
 
 import models.Bishop;
 import models.BoardCell;
@@ -13,17 +16,20 @@ import models.Pawn;
 import models.Queen;
 import models.Rook;
 
-public class ChessPlayer extends Thread {
+public class ChessPlayer extends Observable {
 
 	private boolean isBlack;
 	private Vector<ChessPiece> chessPieces;
 	private Vector<Move> historicalMoves;
 
-	public ChessPlayer(boolean color) {
+	public ChessPlayer(boolean color, ChessViewFrame cvf) {
 
 		isBlack = color;
 		chessPieces = new Vector<ChessPiece>();
 		historicalMoves = new Vector<Move>();
+		
+		this.addObserver(cvf);
+
 	}
 
 	public void move() {
@@ -31,20 +37,19 @@ public class ChessPlayer extends Thread {
 		Vector<Move> possibleMoves = new Vector<Move>();
 
 		for (ChessPiece p : this.getChessPieces()) {
+			
+			if(p instanceof Queen || p instanceof King){
+				continue;
+			}
 			for (BoardCell c : p.findPossibleSquaresToMoveTo()) {
 				
 				if(c.getCurrentPiece() !=null){
-					System.out.println("Not null!!!! : " + c.getCurrentPiece().getPieceType());
+					System.out.println("Potential captured is Not null!!!! : " + c.getCurrentPiece().getPieceType());
 				}
 
 				Move m = new Move(isBlack, p, c.getCurrentPiece(),
 						p.getCurrentCell(), c);
 				possibleMoves.add(m);
-
-//				System.out.println("Piece: " + p.getPieceType()
-//						+ ", current square: "
-//						+ p.getCurrentCell().getSquareName()
-//						+ ", Destination Square: " + c.getSquareName());
 
 			}
 		}
@@ -54,29 +59,34 @@ public class ChessPlayer extends Thread {
 
 			double calcTemp = 0;
 
-			if (m.getCaptured() instanceof Pawn) {
+			if (m.getCapturedPiece() instanceof Pawn) {
 
 				calcTemp += 2.0;
 				
-			} else if (m.getCaptured() instanceof Bishop) {
+			} else if (m.getCapturedPiece() instanceof Bishop) {
 				
-				calcTemp += 3.0;
+				calcTemp += 2.0;
+//				calcTemp += 3.0;
 
-			} else if (m.getCaptured() instanceof Rook) {
+			} else if (m.getCapturedPiece() instanceof Rook) {
 				
-				calcTemp += 5.0;
+				calcTemp += 2.0;
+//				calcTemp += 5.0;
 
-			} else if (m.getCaptured() instanceof Horse) {
+			} else if (m.getCapturedPiece() instanceof Horse) {
 
-				calcTemp += 4.0;
+				calcTemp += 2.0;
+//				calcTemp += 4.0;
 				
-			} else if (m.getCaptured() instanceof Queen) {
+			} else if (m.getCapturedPiece() instanceof Queen) {
 				
-				calcTemp += 7.0;
+				calcTemp += 2.0;
+//				calcTemp += 7.0;
 
-			} else if (m.getCaptured() instanceof King) {
+			} else if (m.getCapturedPiece() instanceof King) {
 				
-				calcTemp += 9999.0;
+				calcTemp += 2.0;
+//				calcTemp += 9999.0;
 				Referee.setGameOver(true);
 
 			}
@@ -85,7 +95,7 @@ public class ChessPlayer extends Thread {
 
 		}
 		
-		double calc = 0;
+		double calc = -111;
 		Vector<Move> finalChoices = new Vector<Move>();
 		Move finalMove = null;
 		
@@ -93,13 +103,20 @@ public class ChessPlayer extends Thread {
 			
 			if(m.getPerceivedValue() >= calc){
 				finalChoices.add(m);
-				calc = m.getPerceivedValue();
+			//	calc = m.getPerceivedValue();
 			}
 		}
 		
 		if(finalChoices.isEmpty()){
 			//we have a stalemate
 		 System.out.println("We have a stalemate!");
+		 System.out.println("We have a stalemate!");
+		 System.out.println("We have a stalemate!");
+		 System.out.println("We have a stalemate!");
+		 System.out.println("We have a stalemate!");
+		 System.out.println("We have a stalemate!");
+		 System.out.println("We have a stalemate!");
+		 return;
 		}
 		
 		double rand = -111;
@@ -128,24 +145,27 @@ public class ChessPlayer extends Thread {
 
 	private void executeMove(Move finalMove) {
 		
-		System.out.println("Piece: " + finalMove.getMoved().getPieceType()
+		System.out.println("Piece: " + finalMove.getMovedPiece().getPieceType()
 				+ ", current square: "
-				+ finalMove.getMoved().getCurrentCell().getSquareName()
+				+ finalMove.getMovedPiece().getCurrentCell().getSquareName()
 				+ ", Destination Square: " + finalMove.getToCell().getSquareName() +
-				" Captured piece: " + finalMove.getCaptured());
+				" Captured piece: " + finalMove.getCapturedPiece());
 		
 	
-	if(finalMove.getCaptured() != null){
-	BoardCell bc = finalMove.getCaptured().getCurrentCell();
+	if(finalMove.getCapturedPiece() != null){
+	BoardCell bc = finalMove.getCapturedPiece().getCurrentCell();
 	ChessBoard.getCellAt(bc.getRow(), bc.getColumn()).setCurrentPiece(null);
 	}
 	
 	ChessPlayer cp = Referee.getOppposingPlayer(this);
-	cp.getChessPieces().remove(finalMove.getCaptured());
+	cp.getChessPieces().remove(finalMove.getCapturedPiece());
 	BoardCell bc1 = finalMove.getToCell();
-	BoardCell bc2 = finalMove.getMoved().getCurrentCell();
+	BoardCell bc2 = finalMove.getMovedPiece().getCurrentCell();
 	ChessBoard.getCellAt(bc2.getRow(), bc2.getColumn()).setCurrentPiece(null);
-	ChessBoard.getCellAt(bc1.getRow(), bc1.getColumn()).setCurrentPiece(finalMove.getMoved());
+	ChessBoard.getCellAt(bc1.getRow(), bc1.getColumn()).setCurrentPiece(finalMove.getMovedPiece());
+	
+	this.setChanged();
+	this.notifyObservers(finalMove);
 	}
 
 	public boolean isBlack() {

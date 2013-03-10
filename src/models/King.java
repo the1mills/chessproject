@@ -4,9 +4,9 @@ import java.util.Vector;
 
 public class King extends ChessPiece {
 
-	public King(String pieceType, double value, boolean color, int row, int column) {
+	public King(String pieceType, BoardCell c, double value, boolean color, int row, int column) {
 
-		super(pieceType,value, color, row, column);
+		super(pieceType,c,value, color, row, column);
 	}
 
 	@Override
@@ -78,6 +78,7 @@ public class King extends ChessPiece {
 
 					if (p == null) {
 						potentialCells.add(temp1);
+						continue;
 					} else if (p.isBlack == false) {
 						potentialCells.add(temp1);
 						continue;
@@ -142,6 +143,7 @@ public class King extends ChessPiece {
 
 					if (p == null) {
 						potentialCells.add(temp1);
+						continue;
 					} else if (p.isBlack == true) {
 						potentialCells.add(temp1);
 						continue;

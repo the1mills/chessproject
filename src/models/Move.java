@@ -27,7 +27,7 @@ public class Move {
 		this.actorColor = actorColor;
 	}
 
-	public ChessPiece getMoved() {
+	public ChessPiece getMovedPiece() {
 		return moved;
 	}
 
@@ -35,7 +35,7 @@ public class Move {
 		this.moved = moved;
 	}
 
-	public ChessPiece getCaptured() {
+	public ChessPiece getCapturedPiece() {
 		return captured;
 	}
 

@@ -4,8 +4,8 @@ import java.util.Vector;
 
 public class Rook extends ChessPiece {
 
-	public Rook(String pieceType, double value,boolean color, int row, int column) {
-		super(pieceType,value,color,row,column);
+	public Rook(String pieceType, BoardCell c, double value,boolean color, int row, int column) {
+		super(pieceType, c, value,color,row,column);
 	}
 
 	@Override
