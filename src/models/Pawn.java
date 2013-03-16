@@ -56,9 +56,6 @@ public class Pawn extends ChessPiece {
 					potentialCells.add(oneSpaceUp);
 				}
 			}
-			
-			
-			
 		}
 
 		else {
@@ -103,6 +100,66 @@ public class Pawn extends ChessPiece {
 
 		return potentialCells;
 
+	}
+
+	@Override
+	public boolean canAndDoesProtectThisSquare(BoardCell bc) {
+		if (isBlack) {
+
+			BoardCell upAndLeft = ChessBoard.getCellAt(
+					this.getCurrentCell().row - 1,
+					this.getCurrentCell().column + 1);
+
+			if (upAndLeft != null) {
+				
+				if(upAndLeft == bc){
+					return true;
+				}
+			}
+
+			BoardCell upAndRight = ChessBoard.getCellAt(
+					this.getCurrentCell().row - 1,
+					this.getCurrentCell().column - 1);
+
+			if (upAndRight != null) {
+				if(upAndRight == bc){
+					return true;
+				}
+			}
+					
+		}
+
+		else {
+			
+			BoardCell upAndLeft = ChessBoard.getCellAt(
+					this.getCurrentCell().row + 1,
+					this.getCurrentCell().column - 1);
+
+			if (upAndLeft != null) {
+				
+				if(upAndLeft == bc){
+					return true;
+				}
+			}
+
+			BoardCell upAndRight = ChessBoard.getCellAt(
+					this.getCurrentCell().row + 1,
+					this.getCurrentCell().column + 1);
+
+			if (upAndRight != null) {
+				if(upAndRight == bc){
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
+	@Override
+	public BoardCell doTheSquareLoopThing(int i, int j) {
+		// this method not needed for pawn
+		return null;
 	}
 
 }

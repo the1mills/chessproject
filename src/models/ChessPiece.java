@@ -32,9 +32,13 @@ public abstract class ChessPiece extends Observable {
 		this.notifyObservers(this);
 	}
 	
+	public abstract BoardCell doTheSquareLoopThing(int i, int j);
+	
 	public abstract void setValueOfPiece();
 	
 	public abstract Vector<BoardCell> findPossibleSquaresToMoveTo();
+	
+	public abstract boolean canAndDoesProtectThisSquare(BoardCell bc);
 	
 	public String getPieceType(){
 		return pieceType;

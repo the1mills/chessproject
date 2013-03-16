@@ -102,10 +102,6 @@ public class ChessBoard extends Observable{
 				boardCells[i][j] = new BoardCell(i,j);
 				ChessPiece p = getCorrectPiece(i,j);
 				
-//				if(p !=null && p.getPieceType().equals("Pawn")){
-//					continue;
-//				}
-				
 				boardCells[i][j].currentPiece = p;
 				
 				if(i<2){
@@ -116,12 +112,8 @@ public class ChessBoard extends Observable{
 					
 					blackPlayer.getChessPieces().add(p);
 				}
-				
-				
-				
 			}
 		}
-		
 	}
 
 	private ChessPiece getCorrectPiece(int i, int j) {

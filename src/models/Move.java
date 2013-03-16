@@ -7,7 +7,11 @@ public class Move {
 	ChessPiece captured;
 	BoardCell fromCell;
 	BoardCell toCell;
-	double perceivedValue;
+	double totalPerceivedValue;
+	double captureBenefits;
+	double captureCosts;
+	double toSquareProtection;
+	boolean isLegal = true;
 
 	public Move(boolean actorColor, ChessPiece moved, ChessPiece captured,
 			BoardCell fromCell, BoardCell toCell) {
@@ -60,11 +64,58 @@ public class Move {
 	}
 
 	public double getPerceivedValue() {
-		return perceivedValue;
+		return totalPerceivedValue;
 	}
 
 	public void setPerceivedValue(double perceivedValue) {
-		this.perceivedValue = perceivedValue;
+		this.totalPerceivedValue = perceivedValue;
 	}
 
+	public double getTotalPerceivedValue() {
+		return totalPerceivedValue;
+	}
+
+	public void setTotalPerceivedValue(double totalPerceivedValue) {
+		this.totalPerceivedValue = totalPerceivedValue;
+	}
+
+	public double getCaptureBenefits() {
+		return captureBenefits;
+	}
+
+	public void setCaptureBenefits(double captureBenefits) {
+		this.captureBenefits = captureBenefits;
+	}
+
+	public double getCaptureCosts() {
+		return captureCosts;
+	}
+
+	public void setCaptureCosts(double captureCosts) {
+		this.captureCosts = captureCosts;
+	}
+
+	public double getToSquareProtection() {
+		return toSquareProtection;
+	}
+
+	public void setToSquareProtection(double toSquareProtection) {
+		this.toSquareProtection = toSquareProtection;
+	}
+
+	public boolean isLegal() {
+		return isLegal;
+	}
+
+	public void setLegal(boolean isLegal) {
+		this.isLegal = isLegal;
+	}
+
+	public ChessPiece getMoved() {
+		return moved;
+	}
+
+	public ChessPiece getCaptured() {
+		return captured;
+	}
 }

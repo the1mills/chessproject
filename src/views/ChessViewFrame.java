@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
@@ -16,23 +18,20 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controllers.ChessPlayer;
-
-import models.Bishop;
 import models.ChessPiece;
-import models.Horse;
 import models.King;
 import models.Move;
-import models.Pawn;
-import models.Queen;
-import models.Rook;
+import controllers.ChessPlayer;
+import controllers.Referee;
 
-public class ChessViewFrame extends JFrame implements Observer {
+public class ChessViewFrame extends JFrame implements Observer, ActionListener {
 
 	private Dimension size = null;
 	private ChessGrid chessGridPanel = null;
@@ -42,6 +41,7 @@ public class ChessViewFrame extends JFrame implements Observer {
 	private JPanel eastPanel = null;
 	private JPanel southPanel = null;
 	private Hashtable<String, ImageIcon> pieceImgHash = new Hashtable<String, ImageIcon>();
+	private JButton pauseButton = new JButton("Pause");
 	
 //	ImageIcon imgPawnBlack;
 //	ImageIcon imgRookBlack;
@@ -71,6 +71,8 @@ public class ChessViewFrame extends JFrame implements Observer {
 		this.add(rootPanel);
 
 		headerNorthPanel = new JPanel();
+		headerNorthPanel.add(pauseButton);
+		pauseButton.addActionListener(this);
 		headerNorthPanel.setBackground(Color.cyan);
 		eastPanel = new JPanel();
 		eastPanel.setBackground(Color.yellow);
@@ -231,33 +233,40 @@ public class ChessViewFrame extends JFrame implements Observer {
 				
 				clearPanel.revalidate();
 				
-				Runnable r = new Runnable(){
-
-					@Override
-					public void run() {
-					
-						for(int i = 1; i < 15; i++){
-						
-						((Move)arg1).getMovedPiece().getJlImage().
-						setBounds(100+ ((Move) arg1).getToCell().getRow()*500/8,
-										100+ ((Move) arg1).getToCell().getColumn()*500/8,
-										500/8, 500/8);
-						try {
-							Thread.sleep(30);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						clearPanel.revalidate();
-						}
-						
-					}
-					
-				};
+//				Runnable r = new Runnable(){
+//
+//					@Override
+//					public void run() {
+//					
+//						for(int i = 1; i <= 15; i++){
+//						
+//						((Move)arg1).getMovedPiece().getJlImage().
+//						setBounds(100+ (((Move) arg1).getToCell().getRow()-((Move) arg1).getFromCell().getRow())*500/8*(i/15)
+//								+ ((Move) arg1).getFromCell().getRow()*500/8,
+//										100+ (((Move) arg1).getToCell().getColumn()-((Move) arg1).getFromCell().getColumn())*500/8*(i/15)
+//										+((Move) arg1).getFromCell().getColumn()*500/8,500/8, 500/8);
+//						try {
+//							Thread.sleep(10);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+////						clearPanel.revalidate();
+//						}
+//						
+//					}
+//					
+//				};
+//				
+//				r.run();
 				
-				r.run();
+				((Move)arg1).getMovedPiece().getJlImage().
+				setBounds(100+ ((Move) arg1).getToCell().getRow()*500/8,
+								100+ ((Move) arg1).getToCell().getColumn()*500/8,
+								500/8, 500/8);
 				
 				
+				clearPanel.revalidate();
 				this.validate();
 
 				System.out.println("Moved Piece: "
@@ -269,9 +278,24 @@ public class ChessViewFrame extends JFrame implements Observer {
 						+ ((Move) arg1).getToCell().getSquareName());
 
 			}
+			else if(arg1 instanceof ChessPiece){
+				
+				Component[] cc = clearPanel.getComponents();
+				
+				for(Component c: cc){
+					
+					if(c ==  ((ChessPiece) arg1).getJlImage()){
+					   ((JLabel)c).setBorder(BorderFactory.createEtchedBorder(Color.green, Color.green));
+					   ((JLabel)c).revalidate();
+					   break;
+					}
+				}
+				
+				
+				clearPanel.revalidate();
+				
+			}
 		} else if (arg0 instanceof ChessPiece) {
-
-			if (arg0 instanceof ChessPiece) {
 
 				JLabel jl = ((ChessPiece) arg1).getJlImage();
 				
@@ -282,6 +306,10 @@ public class ChessViewFrame extends JFrame implements Observer {
 				jl.setBounds(100+ ((ChessPiece) arg1).getCurrentCell().getRow()*500/8,
 						100+ ((ChessPiece) arg1).getCurrentCell().getColumn()*500/8,
 						500/8, 500/8);
+				
+				if (arg0 instanceof King) {
+				jl.setBorder(BorderFactory.createEtchedBorder(Color.red, Color.blue));	
+				}
 
 				System.out.println("Bounds: " + jl.getBounds());
 				}
@@ -289,7 +317,7 @@ public class ChessViewFrame extends JFrame implements Observer {
 			
 			
 
-		}
+		
 
 	}
 
@@ -299,5 +327,23 @@ public class ChessViewFrame extends JFrame implements Observer {
 
 	public void setPieceImgHash(Hashtable<String, ImageIcon> pieceImgHash) {
 		this.pieceImgHash = pieceImgHash;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		
+		
+		if(arg0.getSource() == pauseButton){
+			
+			if(Referee.paused){
+			Referee.paused = false;
+			pauseButton.setText("Pause");
+			}
+			else{
+			Referee.paused = true;
+			pauseButton.setText("Unpause");
+			}
+			}
+		
 	}
 }

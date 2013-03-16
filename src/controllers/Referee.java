@@ -12,6 +12,7 @@ public class Referee {
 	private volatile static ChessPlayer whitePlayer;
 	private volatile static ChessPlayer blackPlayer;
 	public static ChessViewFrame cvf;
+	public static boolean paused = false;
 
 	public Referee() {
 
@@ -19,6 +20,9 @@ public class Referee {
 		cvf.setVisible(true);
 		whitePlayer = new ChessPlayer(false, cvf);
 		blackPlayer = new ChessPlayer(true, cvf);
+		
+		whitePlayer.setUpOpponent();
+		blackPlayer.setUpOpponent();
 
 		ChessBoard c = new ChessBoard(whitePlayer, blackPlayer);
 
@@ -51,6 +55,16 @@ public class Referee {
 		int i = 0;
 		while (!isGameOver() && i < 500) {
 			System.out.println("Move #: " + i);
+			
+			while(paused){
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			whitePlayer.move();
 			try {
 				Thread.sleep(1000);
@@ -58,6 +72,20 @@ public class Referee {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			while(paused){
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(isGameOver()){
+				continue;
+			}
+			
 			blackPlayer.move();
 			try {
 				Thread.sleep(1000);
